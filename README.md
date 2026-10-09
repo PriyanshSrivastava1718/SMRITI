@@ -81,4 +81,4 @@ The current prototype is designed to run in a web browser without requiring a ba
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/YOUR-USERNAME/SMRITI.git
+   git clone https://github.com/PriyanshSrivastava1718/SMRITI.git
