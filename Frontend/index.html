@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMRITI | Healthcare Assistance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="brand">
+            <h1>SMRITI</h1>
+            <span>Healthcare Assistance</span>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+            <button class="nav-btn" data-section="biometric">Biometric Log</button>
+            <button class="nav-btn" data-section="medicines">Medicines</button>
+            <button class="nav-btn" data-section="settings">Settings</button>
+            <button class="nav-btn" data-section="about">About SMRITI</button>
+        </div>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page-section">
+
+            <div class="welcome">
+                <h2>Good morning! 🌿</h2>
+                <p>Here's how things are looking today.</p>
+            </div>
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+                    <h3>Medication Status</h3>
+                    <p class="card-number" id="medicine-count">0</p>
+                    <p class="card-description">Medicines scheduled today</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Visitor Activity</h3>
+                    <p class="card-number" id="visitor-count">0</p>
+                    <p class="card-description">Visitor events recorded today</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Recognition Status</h3>
+                    <p class="card-number" id="recognition-status">OFF</p>
+                    <p class="card-description">Camera-based recognition</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BIOMETRIC LOG -->
+        <section id="biometric" class="page-section" hidden>
+
+            <div class="welcome">
+                <h2>Biometric Log</h2>
+                <p>Manage visitor recognition and privacy preferences.</p>
+            </div>
+
+            <div class="biometric-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Face Recognition</h3>
+                        <p>Control camera-based visitor recognition.</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="recognition-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div id="privacy-status" class="privacy-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>Privacy Mode Active</strong>
+                        <p>Face recognition is disabled.</p>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <h4>Visitor Notifications</h4>
+                        <p>Enable notifications for visitor events.</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="visitor-notifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <h4>Unknown Visitor Alerts</h4>
+                        <p>Alert the caregiver about unrecognized visitors.</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="unknown-alerts" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <p class="prototype-note">
+                    Prototype mode: These controls demonstrate the intended behaviour.
+                    Actual camera recognition and remote notifications are not connected.
+                </p>
+
+            </div>
+
+            <!-- VISITOR HISTORY -->
+            <div class="visitor-history">
+
+                <div class="history-header">
+                    <div>
+                        <h3>Visitor History</h3>
+                        <p>Recent recognition events and visitor activity.</p>
+                    </div>
+
+                    <span class="record-count" id="record-count">0 records</span>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Visitor</th>
+                                <th>Recognition</th>
+                                <th>Event Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="visitor-table-body">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    No visitor records yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="view-more-btn" class="view-more-btn" hidden>
+                    View More Records
+                </button>
+
+                <p class="prototype-note">
+                    Demonstration records will be used until actual face recognition
+                    and database integration are implemented.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MEDICINES -->
+        <section id="medicines" class="page-section" hidden>
+
+            <div class="welcome">
+                <h2>Medicine Management 💊</h2>
+                <p>Manage medication schedules and track daily doses.</p>
+            </div>
+
+            <div class="medicine-form-card">
+
+                <h3>Add a Medicine</h3>
+
+                <form id="medicine-form">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="medicine-name">Medicine Name</label>
+                            <input
+                                type="text"
+                                id="medicine-name"
+                                placeholder="e.g. Vitamin D"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medicine-dosage">Dosage</label>
+                            <input
+                                type="text"
+                                id="medicine-dosage"
+                                placeholder="e.g. 1 tablet"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medicine-frequency">Doses Per Day</label>
+                            <select id="medicine-frequency" required>
+                                <option value="1">Once daily</option>
+                                <option value="2">Twice daily</option>
+                                <option value="3">Three times daily</option>
+                                <option value="4">Four times daily</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="schedule-times">
+                        <h4>Scheduled Dose Times</h4>
+                        <p>Add a time for each scheduled dose.</p>
+
+                        <div id="dose-time-inputs"></div>
+                    </div>
+
+                    <button type="submit" class="add-medicine-btn">
+                        + Add Medicine Schedule
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div class="medicine-list-card">
+
+                <div class="history-header">
+                    <div>
+                        <h3>Today's Medication Schedule</h3>
+                        <p>Track each scheduled dose independently.</p>
+                    </div>
+
+                    <span class="record-count" id="medicine-record-count">
+                        0 doses
+                    </span>
+                </div>
+
+                <div class="medicine-summary">
+                    <div>
+                        <span>Total Medicines</span>
+                        <strong id="total-medicines">0</strong>
+                    </div>
+
+                    <div>
+                        <span>Doses Taken</span>
+                        <strong id="doses-taken">0</strong>
+                    </div>
+
+                    <div>
+                        <span>Doses Pending</span>
+                        <strong id="doses-pending">0</strong>
+                    </div>
+                </div>
+
+                <div id="medicine-list">
+                    <p class="empty-state">No medicines added yet.</p>
+                </div>
+
+            </div>
+
+            <p class="prototype-note">
+                Prototype mode: Medication schedules are stored in the browser.
+                Dose status must be confirmed by the caregiver or patient.
+                SMRITI does not currently send medication reminders.
+            </p>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+        <section id="settings" class="page-section" hidden>
+
+            <div class="page-heading">
+                <h2>Settings & Safety Monitoring</h2>
+                <p>Configure monitoring preferences and review simulated safety alerts.</p>
+            </div>
+
+            <!-- INACTIVITY MONITORING -->
+            <div class="safety-card">
+
+                <div class="safety-card-heading">
+                    <div>
+                        <h3>Inactivity Monitoring</h3>
+                        <p>Flag extended periods without detected activity for caregiver review.</p>
+                    </div>
+
+                    <label class="safety-toggle">
+                        <input type="checkbox" id="inactivity-toggle">
+                        <span>Enable</span>
+                    </label>
+                </div>
+
+                <div class="safety-setting">
+                    <label for="inactivity-threshold">
+                        Inactivity threshold
+                    </label>
+
+                    <select id="inactivity-threshold">
+                        <option value="5">5 minutes — Demo</option>
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">60 minutes</option>
+                    </select>
+                </div>
+
+                <p class="safety-note">
+                    Inactivity alone does not establish an emergency.
+                    Any alert should be verified by a caregiver.
+                </p>
+
+            </div>
+
+
+            <!-- UNKNOWN VISITOR MONITORING -->
+            <div class="safety-card">
+
+                <div class="safety-card-heading">
+                    <div>
+                        <h3>Unknown Visitor Monitoring</h3>
+                        <p>Review repeated unknown-visitor events recorded by the prototype.</p>
+                    </div>
+
+                    <label class="safety-toggle">
+                        <input type="checkbox" id="unknown-monitoring-toggle">
+                        <span>Enable</span>
+                    </label>
+                </div>
+
+                <div class="safety-setting">
+                    <label for="visitor-threshold">
+                        Events before review prompt
+                    </label>
+
+                    <select id="visitor-threshold">
+                        <option value="2">2 events</option>
+                        <option value="3" selected>3 events</option>
+                        <option value="5">5 events</option>
+                    </select>
+                </div>
+
+                <p class="safety-note">
+                    An unrecognized visitor is not necessarily a threat.
+                    Events are intended to prompt verification, not automatic accusations.
+                </p>
+
+            </div>
+
+
+            <!-- CAMERA STATUS -->
+            <div class="safety-card">
+
+                <h3>Camera & Sensor Status</h3>
+
+                <div class="status-row">
+                    <span>Camera integration</span>
+                    <span class="status-badge" id="camera-status">
+                        Not Connected
+                    </span>
+                </div>
+
+                <div class="status-row">
+                    <span>Activity sensor</span>
+                    <span class="status-badge" id="sensor-status">
+                        Not Connected
+                    </span>
+                </div>
+
+                <p class="safety-note">
+                    This prototype does not currently access a camera or physical
+                    activity sensor. No real-world monitoring is occurring.
+                </p>
+
+            </div>
+
+
+            <!-- DEMONSTRATION ALERT -->
+            <div class="safety-card">
+
+                <h3>Safety Alert Demonstration</h3>
+
+                <p>
+                    Test how SMRITI could display a safety notification
+                    without accessing real sensors.
+                </p>
+
+                <button type="button" id="test-safety-alert" class="safety-test-btn">
+                    Simulate Safety Alert
+                </button>
+
+                <div id="safety-alert-result" class="safety-alert-result" hidden></div>
+
+                <p class="safety-note">
+                    Demonstration only. This does not contact a caregiver or emergency service.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT SMRITI -->
+        <section id="about" class="page-section" hidden>
+
+            <!-- INTRODUCTION -->
+            <div class="about-hero">
+
+                <div class="about-intro">
+                    <span class="about-label">OUR PURPOSE</span>
+
+                    <h1>About <span>SMRITI</span></h1>
+
+                    <h2>When Memory Fades, Care Remains.</h2>
+
+                    <p>
+                        SMRITI is a healthcare assistance concept designed to
+                        support caregivers and individuals experiencing memory
+                        difficulties. By bringing medication tracking, visitor
+                        awareness, and safety monitoring together, SMRITI aims
+                        to make everyday care more organized and reassuring.
+                    </p>
+
+                    <p>
+                        Our goal is not to replace human care, but to explore
+                        how technology can help caregivers stay informed,
+                        manage daily routines, and respond to potential
+                        safety concerns.
+                    </p>
+
+                    <div class="about-note">
+                        <strong>Our belief:</strong>
+                        Technology should support care, preserve dignity,
+                        and help people feel safer.
+                    </div>
+                </div>
+
+                <div class="about-intro-visual">
+                    <div class="brain-symbol">🧠</div>
+
+                    <h3>Care Beyond Memory</h3>
+
+                    <p>
+                        Understanding the brain.<br>
+                        Supporting the person.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- ALZHEIMER'S EXPLAINER -->
+            <div class="about-medical">
+
+                <div class="about-section-heading">
+                    <span class="about-label">UNDERSTANDING MEMORY</span>
+
+                    <h2>Understanding Alzheimer's Disease</h2>
+
+                    <p>
+                        Alzheimer's disease is a progressive brain disorder
+                        that affects memory, thinking, and everyday activities.
+                        Its effects change over time and vary from person
+                        to person.
+                    </p>
+                </div>
+
+
+                <div class="medical-content">
+
+                    <!-- MEDICAL BRAIN ILLUSTRATION -->
+                    <div class="brain-illustration">
+
+                        <div class="brain-graphic">
+
+                            <svg
+                                viewBox="0 0 340 280"
+                                xmlns="http://www.w3.org/2000/svg"
+                                role="img"
+                                aria-labelledby="brain-title brain-description"
+                            >
+
+                                <title id="brain-title">
+                                    Simplified brain illustration
+                                </title>
+
+                                <desc id="brain-description">
+                                    An illustrative side view of a brain,
+                                    highlighting memory-related regions.
+                                </desc>
+
+                                <!-- Brain outline -->
+                                <path
+                                    d="M78 215
+                                       C48 200 36 171 44 143
+                                       C28 117 44 87 68 78
+                                       C75 48 106 35 132 46
+                                       C155 24 190 33 204 49
+                                       C237 40 266 64 266 91
+                                       C292 109 295 139 278 160
+                                       C279 185 256 204 231 207
+                                       L222 226
+                                       L105 226 Z"
+                                    fill="#D0F2F7"
+                                    stroke="#326F68"
+                                    stroke-width="4"
+                                    stroke-linejoin="round"
+                                />
+
+                                <!-- Brain folds -->
+                                <g
+                                    fill="none"
+                                    stroke="#8ABDB7"
+                                    stroke-width="3"
+                                    stroke-linecap="round"
+                                >
+                                    <path d="M74 96 Q91 72 113 91 Q126 106 109 123"/>
+                                    <path d="M133 57 Q155 76 141 97 Q132 110 146 126"/>
+                                    <path d="M185 54 Q169 76 190 91 Q207 101 194 119"/>
+                                    <path d="M227 78 Q247 88 235 110 Q222 126 244 139"/>
+                                    <path d="M57 146 Q78 132 94 151 Q106 169 88 183"/>
+                                    <path d="M122 143 Q143 130 159 149 Q172 166 153 181"/>
+                                    <path d="M202 139 Q219 125 239 146"/>
+                                    <path d="M111 197 Q129 177 149 195"/>
+                                    <path d="M176 187 Q196 169 215 189"/>
+                                </g>
+
+                                <!-- Hippocampus highlight -->
+                                <path
+                                    d="M126 166
+                                       C138 149 160 150 170 164
+                                       C178 176 169 190 154 192
+                                       C143 194 139 183 148 177
+                                       C154 173 162 179 159 184"
+                                    fill="none"
+                                    stroke="#E7A45D"
+                                    stroke-width="9"
+                                    stroke-linecap="round"
+                                />
+
+                                <circle
+                                    cx="153"
+                                    cy="174"
+                                    r="6"
+                                    fill="#E7A45D"
+                                    stroke="#FFFFFF"
+                                    stroke-width="2"
+                                />
+
+                                <!-- Entorhinal cortex highlight -->
+                                <circle
+                                    cx="188"
+                                    cy="193"
+                                    r="9"
+                                    fill="#9EB2DB"
+                                    stroke="#FFFFFF"
+                                    stroke-width="3"
+                                />
+
+                                <!-- Memory callout -->
+                                <path
+                                    d="M158 170 L203 145 L238 145"
+                                    fill="none"
+                                    stroke="#B97A36"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                />
+
+                                <circle cx="238" cy="145" r="4" fill="#B97A36"/>
+
+                                <text
+                                    x="239"
+                                    y="135"
+                                    font-size="11"
+                                    font-weight="700"
+                                    fill="#754D23"
+                                >
+                                    Memory
+                                </text>
+
+                                <!-- Information processing callout -->
+                                <path
+                                    d="M194 197 L224 218 L259 218"
+                                    fill="none"
+                                    stroke="#607DB1"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                />
+
+                                <circle cx="259" cy="218" r="4" fill="#607DB1"/>
+
+                                <text
+                                    x="258"
+                                    y="208"
+                                    text-anchor="end"
+                                    font-size="10"
+                                    font-weight="700"
+                                    fill="#465D8B"
+                                >
+                                    Memory processing
+                                </text>
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="brain-legend">
+
+                            <div class="legend-item">
+                                <span class="legend-dot hippocampus-dot"></span>
+
+                                <div>
+                                    <strong>Hippocampus</strong>
+
+                                    <p>
+                                        Plays an important role in forming
+                                        new memories.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="legend-item">
+                                <span class="legend-dot entorhinal-dot"></span>
+
+                                <div>
+                                    <strong>Entorhinal Cortex</strong>
+
+                                    <p>
+                                        Helps process and relay information
+                                        involved in memory.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p class="illustration-disclaimer">
+                            Simplified educational illustration.
+                            Highlighted regions are not diagnostic markers.
+                        </p>
+
+                    </div>
+
+
+                    <!-- MEDICAL EXPLANATION -->
+                    <div class="medical-explanation">
+
+                        <div class="medical-card">
+                            <div class="medical-card-icon">🧩</div>
+
+                            <h3>How does Alzheimer's affect the brain?</h3>
+
+                            <p>
+                                Alzheimer's commonly affects memory-related
+                                structures, including the hippocampus and
+                                entorhinal cortex, early in the disease.
+                                As it progresses, other brain regions can
+                                also become affected.
+                            </p>
+
+                            <p>
+                                It is not limited to one isolated point
+                                in the brain.
+                            </p>
+                        </div>
+
+
+                        <div class="medical-card">
+                            <div class="medical-card-icon">💚</div>
+
+                            <h3>Why does this matter to SMRITI?</h3>
+
+                            <p>
+                                Memory difficulties can make daily routines
+                                more challenging. Remembering medication
+                                schedules, maintaining familiar routines,
+                                and communicating changing needs may require
+                                additional support.
+                            </p>
+
+                            <p>
+                                SMRITI explores how digital tools could help
+                                caregivers organize daily care and review
+                                potential safety concerns.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HOW SMRITI SUPPORTS CARE -->
+            <div class="about-features">
+
+                <div class="about-section-heading">
+                    <span class="about-label">DESIGNED AROUND CARE</span>
+
+                    <h2>How SMRITI Supports Care</h2>
+
+                    <p>
+                        Four areas where technology could help caregivers
+                        organize and support everyday care.
+                    </p>
+                </div>
+
+
+                <div class="about-feature-grid">
+
+                    <div class="about-feature-card">
+                        <div class="feature-icon">💊</div>
+
+                        <h3>Medication Care</h3>
+
+                        <p>
+                            Organize medicines, schedule daily doses,
+                            and record medication status to help maintain
+                            a consistent routine.
+                        </p>
+
+                        <span class="feature-tag">Available in prototype</span>
+                    </div>
+
+
+                    <div class="about-feature-card">
+                        <div class="feature-icon">👥</div>
+
+                        <h3>Visitor Awareness</h3>
+
+                        <p>
+                            Review visitor records and explore how
+                            recognition-based awareness could help
+                            caregivers supervise visitor activity.
+                        </p>
+
+                        <span class="feature-tag demo-tag">Demonstration</span>
+                    </div>
+
+
+                    <div class="about-feature-card">
+                        <div class="feature-icon">📍</div>
+
+                        <h3>Location Safety</h3>
+
+                        <p>
+                            Explore how authorized location monitoring
+                            and geofencing could alert caregivers when
+                            someone moves beyond a designated area.
+                        </p>
+
+                        <span class="feature-tag planned-tag">Future development</span>
+                    </div>
+
+
+                    <div class="about-feature-card">
+                        <div class="feature-icon">🔔</div>
+
+                        <h3>Safety Alerts</h3>
+
+                        <p>
+                            Demonstrate how potential safety events
+                            could be presented to caregivers for
+                            verification and appropriate action.
+                        </p>
+
+                        <span class="feature-tag demo-tag">Demonstration</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE TRANSPARENCY -->
+            <div class="about-transparency">
+
+                <div class="about-section-heading">
+                    <span class="about-label">HONESTY BY DESIGN</span>
+
+                    <h2>Feature Transparency</h2>
+
+                    <p>
+                        SMRITI is a developing prototype. We clearly
+                        distinguish working functionality from
+                        demonstrations and planned features.
+                    </p>
+                </div>
+
+
+                <div class="transparency-grid">
+
+                    <!-- IMPLEMENTED -->
+                    <div class="transparency-card">
+
+                        <div class="status-heading">
+                            <span class="status-badge status-implemented">
+                                Implemented
+                            </span>
+                        </div>
+
+                        <h3>Medication Management</h3>
+
+                        <ul>
+                            <li>Medicine scheduling</li>
+                            <li>Multiple daily dose times</li>
+                            <li>Dose-status recording</li>
+                            <li>Browser-based data persistence</li>
+                        </ul>
+
+                        <p class="status-description">
+                            Medication data is stored in the browser.
+                            Dose status is recorded by the user or caregiver;
+                            it does not confirm that medicine was swallowed.
+                        </p>
+
+                    </div>
+
+
+                    <!-- DEMONSTRATION -->
+                    <div class="transparency-card">
+
+                        <div class="status-heading">
+                            <span class="status-badge status-demo">
+                                Demonstration
+                            </span>
+                        </div>
+
+                        <h3>Visitor & Safety Awareness</h3>
+
+                        <ul>
+                            <li>Sample visitor history</li>
+                            <li>Recognition settings interface</li>
+                            <li>Simulated safety alerts</li>
+                            <li>Demonstration alert management</li>
+                        </ul>
+
+                        <p class="status-description">
+                            Visitor records are sample data.
+                            Safety alerts are simulated.
+                            Live facial recognition and real-world
+                            event detection are not connected.
+                        </p>
+
+                    </div>
+
+
+                    <!-- PLANNED -->
+                    <div class="transparency-card">
+
+                        <div class="status-heading">
+                            <span class="status-badge status-planned">
+                                Planned
+                            </span>
+                        </div>
+
+                        <h3>Connected Safety Features</h3>
+
+                        <ul>
+                            <li>Live facial recognition</li>
+                            <li>GPS and geofencing</li>
+                            <li>Remote caregiver notifications</li>
+                            <li>Emergency contact workflows</li>
+                        </ul>
+
+                        <p class="status-description">
+                            These features require additional development,
+                            appropriate device permissions, connected
+                            services, and privacy safeguards.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DISCLAIMER -->
+            <div class="about-disclaimer">
+
+                <div class="disclaimer-icon">🛡️</div>
+
+                <div>
+                    <h3>A note on care and safety</h3>
+
+                    <p>
+                        SMRITI is a prototype designed to explore caregiver
+                        support. It is not a medical diagnostic tool and
+                        does not replace professional healthcare or
+                        appropriate human supervision. Safety events
+                        should always be verified by a caregiver.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
